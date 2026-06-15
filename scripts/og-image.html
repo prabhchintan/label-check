@@ -1,0 +1,75 @@
+<!doctype html>
+<!-- Source for public/og-image.png. Render with headless Chrome at 1200x630:
+     "Google Chrome" --headless --screenshot=../public/og-image.png \
+       --window-size=1200,630 --hide-scrollbars --default-background-color=ffffffff \
+       scripts/og-image.html
+     Kept in the repo so the social card is reproducible, like everything else. -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --navy: #14304f; --ink: #181b20; --muted: #5b6675;
+    --green: #257a3e; --green-bg: #ebf6ee; --line: #e3e7ee;
+    --serif: ui-serif, "New York", Georgia, "Times New Roman", serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink); background: #fff; position: relative; overflow: hidden;
+  }
+  .top-rule { height: 8px; background: var(--navy); }
+  .pad { padding: 64px 72px; display: flex; flex-direction: column; height: 622px; }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .brand svg { width: 54px; height: 54px; color: var(--navy); }
+  .wordmark { font-family: var(--serif); font-size: 60px; font-weight: 700; color: var(--navy); letter-spacing: -0.5px; }
+  .tagline { margin-top: 26px; font-size: 31px; line-height: 1.32; color: var(--ink); max-width: 760px; font-weight: 500; }
+  .sub { margin-top: 14px; font-size: 20px; color: var(--muted); }
+  .spacer { flex: 1; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(20,48,79,0.10); overflow: hidden; width: 1056px;
+  }
+  .verdict {
+    background: var(--green-bg); color: var(--green); border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 28px; font-size: 23px; font-weight: 700;
+  }
+  .verdict .check { display: flex; align-items: center; gap: 12px; }
+  .verdict .timer { font-size: 18px; font-weight: 600; color: var(--muted); }
+  .rows { display: flex; }
+  .row {
+    flex: 1; padding: 18px 28px; border-right: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .row:last-child { border-right: none; }
+  .row .f { font-size: 16px; color: var(--muted); font-weight: 600; }
+  .row .v { font-size: 20px; font-weight: 700; color: var(--ink); }
+  .row .ok { font-size: 16px; color: var(--green); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="top-rule"></div>
+  <div class="pad">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1.5 15.5-4-4 1.41-1.41 2.59 2.58 5.59-5.59L17.5 9.5l-7 7z"/></svg>
+      <span class="wordmark">Label Check</span>
+    </div>
+    <p class="tagline">AI-assisted alcohol label verification for TTB compliance review.</p>
+    <p class="sub">Reads the label set · checks the seven required elements · explains every call.</p>
+    <div class="spacer"></div>
+    <div class="card">
+      <div class="verdict">
+        <span class="check">✓ All checks passed, ready for agent sign-off.</span>
+        <span class="timer">First results 2.3s</span>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="f">Government warning</span><span class="v">27 CFR 16.21</span><span class="ok">✓ Exact match</span></div>
+        <div class="row"><span class="f">Alcohol content</span><span class="v">45% ABV / 90 proof</span><span class="ok">✓ Match</span></div>
+        <div class="row"><span class="f">Net contents</span><span class="v">750 mL</span><span class="ok">✓ Match</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

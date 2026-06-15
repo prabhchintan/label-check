@@ -1,0 +1,387 @@
+{
+  "summary": {
+    "generatedFrom": "scripts/eval-providers.ts",
+    "sets": 7,
+    "models": {
+      "haiku-4.5": {
+        "tierAgreement": "4/7",
+        "warningVerbatim": "4/7",
+        "medianMs": 2287
+      },
+      "sonnet-4.6": {
+        "tierAgreement": "7/7",
+        "warningVerbatim": "6/7",
+        "medianMs": 3962
+      },
+      "opus-4.8": {
+        "tierAgreement": "7/7",
+        "warningVerbatim": "6/7",
+        "medianMs": 3780
+      },
+      "gemini-2.5-flash": {
+        "tierAgreement": "5/7",
+        "warningVerbatim": "4/7",
+        "medianMs": 1632
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "casamigos",
+      "title": "Casamigos Añejo, imported tequila",
+      "expected": "YELLOW",
+      "runs": {
+        "haiku-4.5": {
+          "tier": "YELLOW",
+          "ms": 2957,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "CASAMIGOS",
+          "classType": "Tequila 100% Agave Azul",
+          "abv": "40% ALC./ VOL. (80 PROOF)",
+          "net": "750 mL"
+        },
+        "sonnet-4.6": {
+          "tier": "YELLOW",
+          "ms": 3538,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "review",
+          "warningExactVsReference": true,
+          "brand": "CASAMIGOS",
+          "classType": "Tequila 100% Agave Azul Añejo",
+          "abv": "40% ALC. / VOL. (80 PROOF)",
+          "net": "750 ml"
+        },
+        "opus-4.8": {
+          "tier": "YELLOW",
+          "ms": 3521,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "CASAMIGOS",
+          "classType": "Tequila 100% Agave Azul",
+          "abv": "40% ALC. / VOL. (80 PROOF)",
+          "net": "750 ML"
+        },
+        "gemini-2.5-flash": {
+          "tier": "YELLOW",
+          "ms": 1632,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "CASAMIGOS Tequila",
+          "classType": "Tequila 100% Agave Azul",
+          "abv": "40% ALC./VOL. (80 PROOF)",
+          "net": "750 mL"
+        }
+      }
+    },
+    {
+      "id": "monkey-47",
+      "title": "Monkey 47, Schwarzwald dry gin",
+      "expected": "GREEN",
+      "runs": {
+        "haiku-4.5": {
+          "tier": "RED",
+          "ms": 1905,
+          "warningText": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery and may cause health problems.",
+          "warningStatus": "fail",
+          "warningExactVsReference": false,
+          "brand": "MONKEY 47",
+          "classType": "SCHWARZWALD DRY GIN",
+          "abv": "47% ALC./VOL.",
+          "net": "375 mL"
+        },
+        "sonnet-4.6": {
+          "tier": "GREEN",
+          "ms": 3212,
+          "warningText": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "MONKEY 47",
+          "classType": "SCHWARZWALD DRY GIN",
+          "abv": "47% ALC./VOL.",
+          "net": "375 ML"
+        },
+        "opus-4.8": {
+          "tier": "GREEN",
+          "ms": 3583,
+          "warningText": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "MONKEY 47",
+          "classType": "SCHWARZWALD DRY GIN",
+          "abv": "47% ALC./VOL.",
+          "net": "375 ML"
+        },
+        "gemini-2.5-flash": {
+          "tier": "GREEN",
+          "ms": 2105,
+          "warningText": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "MONKEY 47",
+          "classType": "SCHWARZWALD DRY GIN",
+          "abv": "47% ALC./VOL.",
+          "net": "375 ML"
+        }
+      }
+    },
+    {
+      "id": "black-maple-hill",
+      "title": "Black Maple Hill, three-label bourbon",
+      "expected": "YELLOW",
+      "runs": {
+        "haiku-4.5": {
+          "tier": "RED",
+          "ms": 1780,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SUR-GEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEV-ERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OP-ERATE MACHINERY AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": false,
+          "brand": "Black Maple Hill",
+          "classType": "Oregon Straight Bourbon Whiskey",
+          "abv": "47.5 % by Vol. ( 95 Proof)",
+          "net": "750mL"
+        },
+        "sonnet-4.6": {
+          "tier": "YELLOW",
+          "ms": 3962,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SUR-GEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEV-ERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OP-ERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "Black Maple Hill",
+          "classType": "Oregon Straight Bourbon Whiskey",
+          "abv": "Alc. 47.5 % by Vol. ( 95 Proof )",
+          "net": "750ml"
+        },
+        "opus-4.8": {
+          "tier": "YELLOW",
+          "ms": 3750,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SUR-GEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEV-ERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OP-ERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "Black Maple Hill",
+          "classType": "Oregon Straight Bourbon Whiskey",
+          "abv": "Alc. 47.5 % by Vol. ( 95 Proof )",
+          "net": "750ml"
+        },
+        "gemini-2.5-flash": {
+          "tier": "YELLOW",
+          "ms": 1611,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SUR-GEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEV-ERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OP-ERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "Black Maple Hill",
+          "classType": "Oregon Straight Bourbon Whiskey",
+          "abv": "Alc. 47.5 % by Vol. ( 95 Proof)",
+          "net": "750ml"
+        }
+      }
+    },
+    {
+      "id": "kaku-rei",
+      "title": "Kaku Rei, Japanese sake, kanji front label",
+      "expected": "GREEN",
+      "runs": {
+        "haiku-4.5": {
+          "tier": "GREEN",
+          "ms": 2397,
+          "warningText": "GOVERNMENT WARNING : (1)ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK  ALCOHOLIC BEV-ERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS.(2)CONSUMPTION OF ALCOHOLIC BEVER-AGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "KAKU REI",
+          "classType": "Junmai Daiginjo Sake",
+          "abv": "ALC. 16% BY VOL.",
+          "net": "720ml"
+        },
+        "sonnet-4.6": {
+          "tier": "GREEN",
+          "ms": 5634,
+          "warningText": "GOVERNMENT WARNING : (1)ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEV-ERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS.(2)CONSUMPTION OF ALCOHOLIC BEVER-AGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": false,
+          "brand": "KAKU REI",
+          "classType": "JUNMAI DAIGINJO SAKE",
+          "abv": "ALC. 16% BY VOL.",
+          "net": "720ml"
+        },
+        "opus-4.8": {
+          "tier": "GREEN",
+          "ms": 4099,
+          "warningText": "GOVERNMENT WARNING : (1)ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEV-ERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS.(2)CONSUMPTION OF ALCOHOLIC BEVER-AGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": false,
+          "brand": "KAKU REI",
+          "classType": "JUNMAI DAIGINJO SAKE",
+          "abv": "ALC. 16% BY VOL.",
+          "net": "720ml"
+        },
+        "gemini-2.5-flash": {
+          "tier": "GREEN",
+          "ms": 1533,
+          "warningText": "GOVERNMENT WARNING : (1)ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEV- ERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS.(2)CONSUMPTION OF ALCOHOLIC BEVER- AGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": false,
+          "brand": "KAKU REI",
+          "classType": "JUNMAI DAIGINJO SAKE",
+          "abv": "ALC. 16% BY VOL.",
+          "net": "720ml"
+        }
+      }
+    },
+    {
+      "id": "chaglasian",
+      "title": "Chaglasian, the warning TTB itself flagged",
+      "expected": "YELLOW",
+      "runs": {
+        "haiku-4.5": {
+          "tier": "YELLOW",
+          "ms": 2287,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": true,
+          "brand": "CHAGLASIAN",
+          "classType": "RED WINE",
+          "abv": "14.2% alc./vol.",
+          "net": "750 mL"
+        },
+        "sonnet-4.6": {
+          "tier": "YELLOW",
+          "ms": 6564,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": true,
+          "brand": "Chaglasian",
+          "classType": "RED WINE",
+          "abv": "Alc. 14.2% by Vol.",
+          "net": "750 mL"
+        },
+        "opus-4.8": {
+          "tier": "YELLOW",
+          "ms": 6592,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": true,
+          "brand": "CHAGLASIAN",
+          "classType": "RED WINE",
+          "abv": "ALC. 14.2 % BY VOL.",
+          "net": "750 mL"
+        },
+        "gemini-2.5-flash": {
+          "tier": "GREEN",
+          "ms": 1677,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": false,
+          "brand": "CHAGLASIAN",
+          "classType": "RED WINE",
+          "abv": "ALC 14,2 % BY VOL.",
+          "net": "750ml"
+        }
+      }
+    },
+    {
+      "id": "penn-square",
+      "title": "Penn Square Lavender, what the reviewer let slide",
+      "expected": "YELLOW",
+      "runs": {
+        "haiku-4.5": {
+          "tier": "YELLOW",
+          "ms": 1800,
+          "warningText": "GOVERNMENT WARNING (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": true,
+          "brand": "Penn Square",
+          "classType": "Lavender Flavored Vodka",
+          "abv": "40% ALC by VOL",
+          "net": "750 ML"
+        },
+        "sonnet-4.6": {
+          "tier": "YELLOW",
+          "ms": 6536,
+          "warningText": "GOVERNMENT WARNING (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": true,
+          "brand": "Penn Square",
+          "classType": "Lavender Flavored Vodka",
+          "abv": "40% ALC by VOL",
+          "net": "750 ML"
+        },
+        "opus-4.8": {
+          "tier": "YELLOW",
+          "ms": 4457,
+          "warningText": "GOVERNMENT WARNING (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": true,
+          "brand": "Penn Square",
+          "classType": "Lavender Flavored Vodka",
+          "abv": "40% ALC by VOL",
+          "net": "750 ML"
+        },
+        "gemini-2.5-flash": {
+          "tier": "GREEN",
+          "ms": 1780,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": false,
+          "brand": "Penn Square",
+          "classType": "LAVENDER FLAVORED VODKA",
+          "abv": "40% ALC by VOL",
+          "net": "750 ML"
+        }
+      }
+    },
+    {
+      "id": "sierra-nevada",
+      "title": "Sierra Nevada, keg collar set",
+      "expected": "YELLOW",
+      "runs": {
+        "haiku-4.5": {
+          "tier": "RED",
+          "ms": 5322,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL: WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "fail",
+          "warningExactVsReference": false,
+          "brand": "SIERRA NEVADA",
+          "classType": "TABLE BEER™ ALE WITH BREWED AND ADDED NATURAL FLAVORS",
+          "abv": "4.9% ALC./VOL.",
+          "net": "5 GAL"
+        },
+        "sonnet-4.6": {
+          "tier": "YELLOW",
+          "ms": 3488,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "SIERRA NEVADA",
+          "classType": "ALE WITH BREWED AND ADDED NATURAL FLAVORS",
+          "abv": "4.9% ALC./VOL.",
+          "net": "5 GALS"
+        },
+        "opus-4.8": {
+          "tier": "YELLOW",
+          "ms": 3780,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "SIERRA NEVADA",
+          "classType": "ALE WITH BREWED AND ADDED NATURAL FLAVORS",
+          "abv": "4.9% ALC./VOL.",
+          "net": "5 GALS"
+        },
+        "gemini-2.5-flash": {
+          "tier": "YELLOW",
+          "ms": 1324,
+          "warningText": "GOVERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+          "warningStatus": "pass",
+          "warningExactVsReference": true,
+          "brand": "SIERRA NEVADA",
+          "classType": "TABLE BEER\nALE WITH BREWED AND ADDED\nNATURAL FLAVORS",
+          "abv": "4.9% ALC./VOL.",
+          "net": "5 GALS"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Label Check, approach &amp; test cases</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="top-rule" aria-hidden="true"></div>
+  <header class="tool-bar">
+    <div class="wrap tool-bar-row">
+      <a class="wordmark-small" href="./">Label Check</a>
+      <span class="tool-bar-tag">Approach &amp; test cases</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="eng-intro">
+      <h1 class="eng-h1">How it works, and where it stops</h1>
+      <p class="section-note wide">
+        AI reads the label and weighs the rare close calls; deterministic code checks
+        what the law states exactly (the government warning, ABV, proof, net contents); the
+        agent decides every case. Full approach, tools, and assumptions live in the repo:
+        <code>README.md</code> and <code>ASSUMPTIONS.md</code>, with the reproducible model
+        comparison in <code>docs/model-eval.md</code>.
+      </p>
+    </section>
+
+    <h2 class="gap-top">Your discovery notes, as runnable tests</h2>
+    <p class="section-note wide">
+      The live app shows only real registry labels, that is the product. The cards below are
+      <strong>synthetic</strong>, rendered (<code>scripts/generate-labels.py</code>) for
+      character-exact control a real approved label cannot supply, and each recreates a
+      situation straight from the interviews: the brief's <strong>Old Tom Distillery</strong>
+      sample (verifies clean), <strong>Dave's</strong> "STONE'S THROW" vs "Stone's Throw",
+      <strong>Jenny's</strong> title-case "Government Warning" and her angled, glared photo, plus
+      a paraphrased warning, an ABV mismatch, a missing warning, and a net-contents format quirk.
+      Click any to run the identical live pipeline.
+    </p>
+    <div id="stress-gallery" class="demo-gallery"></div>
+
+    <h2 class="gap-top">Known limits, shown not hidden</h2>
+    <p class="section-note wide">
+      Two real labels sit at the edge of current vision transcription. Both fail <em>safely</em>:
+      a wording mismatch flagged for an agent, never a silent pass. A production rollout would
+      track this rate as a quality metric.
+    </p>
+    <div class="limit-grid">
+      <figure class="limit-card">
+        <img src="real-labels/11364001000181-0.jpeg" alt="Stillwater Debutante circular keg collar" loading="lazy" />
+        <figcaption>
+          <strong>Curved text.</strong> Stillwater Debutante (COLA 11364001000181): the warning curves around
+          a keg collar; the radial line breaks misread as a wording mismatch.
+        </figcaption>
+      </figure>
+      <figure class="limit-card">
+        <img src="real-labels/15030001000472-0.jpg" alt="Choptank'd wrap label with sideways warning" loading="lazy" />
+        <figcaption>
+          <strong>Rotated small text.</strong> The Brewer's Art Choptank'd (COLA 15030001000472): the warning
+          runs sideways at low resolution, reads are unstable. (Its malt-beverage ABV exemption is handled and tested.)
+        </figcaption>
+      </figure>
+    </div>
+
+    <footer class="site-footer">
+      <p><a href="./">&larr; Back to Label Check</a></p>
+    </footer>
+  </main>
+
+  <script src="tests.js"></script>
+</body>
+</html>

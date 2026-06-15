@@ -1,0 +1,244 @@
+{
+  "source": "TTB COLA Public Registry (ttbonline.gov/colasonline), public records of adjudicated label applications. Collected manually, one page at a time; the app never contacts ttbonline.gov.",
+  "records": [
+    {
+      "id": "casamigos",
+      "ttbid": "14049001000115",
+      "title": "Casamigos Añejo, imported tequila",
+      "date_issued": "03/09/2014",
+      "origin": "Mexico",
+      "images": [
+        "real-labels/14049001000115-0.jpg",
+        "real-labels/14049001000115-1.jpg"
+      ],
+      "application": {
+        "brand_name": "CASAMIGOS",
+        "class_type": "Tequila",
+        "abv": "40%",
+        "net_contents": "750 mL"
+      },
+      "expected": "YELLOW",
+      "short": "Casamigos"
+    },
+    {
+      "id": "monkey-47",
+      "ttbid": "13241001000512",
+      "title": "Monkey 47, Schwarzwald dry gin",
+      "date_issued": "10/23/2013",
+      "origin": "Germany",
+      "images": [
+        "real-labels/13241001000512-0.jpg",
+        "real-labels/13241001000512-1.jpg"
+      ],
+      "application": {
+        "brand_name": "MONKEY 47",
+        "class_type": "Schwarzwald Dry Gin",
+        "abv": "47%",
+        "net_contents": "375 mL"
+      },
+      "expected": "GREEN",
+      "short": "Monkey 47"
+    },
+    {
+      "id": "black-maple-hill",
+      "ttbid": "14091001000614",
+      "title": "Black Maple Hill, three-label bourbon",
+      "date_issued": "05/19/2014",
+      "origin": "Oregon",
+      "images": [
+        "real-labels/14091001000614-0.jpeg",
+        "real-labels/14091001000614-1.jpeg",
+        "real-labels/14091001000614-2.jpeg"
+      ],
+      "application": {
+        "brand_name": "Black Maple Hill",
+        "class_type": "Straight Bourbon Whisky",
+        "abv": "47.5%",
+        "net_contents": "750ml"
+      },
+      "expected": "YELLOW",
+      "short": "Black Maple Hill"
+    },
+    {
+      "id": "kaku-rei",
+      "ttbid": "14317001000468",
+      "title": "Kaku Rei, Japanese sake, kanji front label",
+      "date_issued": "12/03/2014",
+      "origin": "Japan",
+      "images": [
+        "real-labels/14317001000468-0.jpg",
+        "real-labels/14317001000468-1.jpg"
+      ],
+      "application": {
+        "brand_name": "KAKU REI",
+        "class_type": "Junmai Daiginjo Sake",
+        "abv": "16%",
+        "net_contents": "720 ml"
+      },
+      "expected": "GREEN",
+      "short": "Kaku Rei"
+    },
+    {
+      "id": "chaglasian",
+      "ttbid": "19115001001298",
+      "title": "Chaglasian, the warning TTB itself flagged",
+      "date_issued": "05/31/2019",
+      "origin": "Argentina",
+      "images": [
+        "real-labels/19115001001298-0.jpg",
+        "real-labels/19115001001298-1.jpg"
+      ],
+      "application": {
+        "brand_name": "CHAGLASIAN",
+        "class_type": "Red Wine",
+        "abv": "14.2%",
+        "net_contents": "750 mL"
+      },
+      "expected": "YELLOW",
+      "short": "Chaglasian"
+    },
+    {
+      "id": "penn-square",
+      "ttbid": "17205001000046",
+      "title": "Penn Square Lavender, what the reviewer let slide",
+      "date_issued": "07/28/2017",
+      "origin": "Pennsylvania",
+      "images": [
+        "real-labels/17205001000046-0.jpg",
+        "real-labels/17205001000046-1.jpg"
+      ],
+      "application": {
+        "brand_name": "Penn Square",
+        "class_type": "Lavender Flavored Vodka",
+        "abv": "40%",
+        "net_contents": "750 mL"
+      },
+      "expected": "YELLOW",
+      "short": "Penn Square"
+    },
+    {
+      "id": "sierra-nevada",
+      "ttbid": "16018001000025",
+      "title": "Sierra Nevada, keg collar set",
+      "date_issued": "02/17/2016",
+      "origin": "California",
+      "images": [
+        "real-labels/16018001000025-0.jpg",
+        "real-labels/16018001000025-1.jpg",
+        "real-labels/16018001000025-2.jpg"
+      ],
+      "application": {
+        "brand_name": "SIERRA NEVADA",
+        "class_type": "Ale with brewed and added natural flavors",
+        "abv": "4.9%",
+        "net_contents": "5 gal"
+      },
+      "expected": "YELLOW",
+      "short": "Sierra Nevada"
+    },
+    {
+      "id": "rampur",
+      "ttbid": "25241001000307",
+      "title": "Rampur Double Cask, imported Indian single malt",
+      "short": "Rampur",
+      "date_issued": "08/29/2025",
+      "origin": "India",
+      "images": [
+        "real-labels/25241001000307-0.jpeg",
+        "real-labels/25241001000307-1.jpeg"
+      ],
+      "application": {
+        "brand_name": "Rampur",
+        "class_type": "Indian Single Malt Whisky",
+        "abv": "45%",
+        "net_contents": "750 mL",
+        "source": "imported",
+        "beverage_type": "spirits"
+      },
+      "expected": "YELLOW"
+    },
+    {
+      "id": "gekkeikan",
+      "ttbid": "14030001000242",
+      "title": "Gekkeikan Bizan, Japanese rice shochu",
+      "short": "Gekkeikan",
+      "date_issued": "01/30/2014",
+      "origin": "Japan",
+      "images": [
+        "real-labels/14030001000242-0.jpeg",
+        "real-labels/14030001000242-1.jpeg",
+        "real-labels/14030001000242-2.jpeg"
+      ],
+      "application": {
+        "brand_name": "Gekkeikan",
+        "class_type": "Soju",
+        "abv": "20%",
+        "net_contents": "750 mL",
+        "source": "imported",
+        "beverage_type": "spirits"
+      },
+      "expected": "YELLOW"
+    },
+    {
+      "id": "bud-light",
+      "ttbid": "25157001000662",
+      "title": "Bud Light UTRGV limited edition, a can wrap",
+      "short": "Bud Light",
+      "date_issued": "06/06/2025",
+      "origin": "USA",
+      "images": [
+        "real-labels/25157001000662-0.jpeg"
+      ],
+      "application": {
+        "brand_name": "Bud Light",
+        "class_type": "Lager Beer",
+        "abv": "4.2%",
+        "net_contents": "25 FL OZ",
+        "source": "domestic",
+        "beverage_type": "malt"
+      },
+      "expected": "YELLOW"
+    },
+    {
+      "id": "half-batch",
+      "ttbid": "21006001000775",
+      "title": "Half Batch Get Crackin, a domestic pale ale",
+      "short": "Half Batch",
+      "date_issued": "2021",
+      "origin": "Tennessee",
+      "images": [
+        "real-labels/21006001000775-0.jpeg"
+      ],
+      "application": {
+        "brand_name": "Half Batch Brewing",
+        "class_type": "American Pale Ale",
+        "abv": "5.5%",
+        "net_contents": "1 Pint",
+        "source": "domestic",
+        "beverage_type": "malt"
+      },
+      "expected": "YELLOW"
+    },
+    {
+      "id": "cyclic",
+      "ttbid": "20175001000673",
+      "title": "Cyclic Beer Farm, an imported Spanish ale",
+      "short": "Cyclic",
+      "date_issued": "2020",
+      "origin": "Spain",
+      "images": [
+        "real-labels/20175001000673-0.jpeg",
+        "real-labels/20175001000673-1.jpeg"
+      ],
+      "application": {
+        "brand_name": "Cyclic Beer Farm",
+        "class_type": "Spanish Ale",
+        "abv": "5.6%",
+        "net_contents": "750 mL",
+        "source": "imported",
+        "beverage_type": "malt"
+      },
+      "expected": "GREEN"
+    }
+  ]
+}

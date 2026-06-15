@@ -1,0 +1,106 @@
+[
+  {
+    "id": "happy-path",
+    "title": "Clean bourbon label, everything matches",
+    "story": "The happy path: every field matches, verified in seconds.",
+    "image": "demo-labels/label-1-happy-path.png",
+    "application": {
+      "brand_name": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "net_contents": "750 mL"
+    },
+    "expected": "GREEN"
+  },
+  {
+    "id": "stones-throw",
+    "title": "STONE'S THROW vs Stone's Throw",
+    "story": "Dave's nuance: all-caps on the label, title case in the application, same brand, and the tool explains why.",
+    "image": "demo-labels/label-2-stones-throw.png",
+    "application": {
+      "brand_name": "Stone's Throw",
+      "class_type": "Straight Rye Whiskey",
+      "abv": "46%",
+      "net_contents": "750 mL"
+    },
+    "expected": "GREEN"
+  },
+  {
+    "id": "title-case-warning",
+    "title": "Warning in Title Case",
+    "story": "Jenny's exact catch: \"Government Warning:\" in title case instead of all caps. Rejected.",
+    "image": "demo-labels/label-3-title-case-warning.png",
+    "application": {
+      "brand_name": "RIVERBEND RESERVE",
+      "class_type": "Small Batch Bourbon Whiskey",
+      "abv": "43%",
+      "net_contents": "750 mL"
+    },
+    "expected": "RED"
+  },
+  {
+    "id": "reworded-warning",
+    "title": "Reworded warning statement",
+    "story": "Zero tolerance: the warning is paraphrased. The statute requires the exact words, rejected, with the first difference highlighted.",
+    "image": "demo-labels/label-4-reworded-warning.png",
+    "application": {
+      "brand_name": "SILVER CREEK",
+      "class_type": "American Single Malt Whiskey",
+      "abv": "44%",
+      "net_contents": "750 mL"
+    },
+    "expected": "RED"
+  },
+  {
+    "id": "abv-mismatch",
+    "title": "ABV mismatch (43% vs 45%)",
+    "story": "The core matching job: application says 45%, label says 43%. Caught instantly by code, not AI.",
+    "image": "demo-labels/label-5-abv-mismatch.png",
+    "application": {
+      "brand_name": "COPPER STILL",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "net_contents": "750 mL"
+    },
+    "expected": "RED"
+  },
+  {
+    "id": "bad-photo",
+    "title": "Photographed at an angle, with glare",
+    "story": "Jenny's stretch goal: a less-than-perfect photo. The pipeline reads it anyway, and catches a real gap: the label says 'Imported by' but names no country of origin.",
+    "image": "demo-labels/label-6-bad-photo.png",
+    "application": {
+      "brand_name": "HARBOR LIGHT",
+      "class_type": "Blended Canadian Whisky",
+      "abv": "40%",
+      "net_contents": "750 mL"
+    },
+    "expected": "YELLOW"
+  },
+  {
+    "id": "missing-warning",
+    "title": "No warning statement at all",
+    "story": "The mandatory element is simply absent. Hard stop.",
+    "image": "demo-labels/label-7-missing-warning.png",
+    "application": {
+      "brand_name": "MIDNIGHT ROOSTER",
+      "class_type": "Spiced Rum",
+      "abv": "35%",
+      "net_contents": "750 mL"
+    },
+    "expected": "RED"
+  },
+  {
+    "id": "net-contents-format",
+    "title": "750ml vs 750 mL",
+    "story": "Normalization smarts: same quantity, different formatting. Match, with the equivalence spelled out.",
+    "image": "demo-labels/label-8-net-contents.png",
+    "application": {
+      "brand_name": "JUNIPER & PINE",
+      "class_type": "London Dry Gin",
+      "abv": "47%",
+      "net_contents": "750 mL"
+    },
+    "expected": "GREEN"
+  }
+]

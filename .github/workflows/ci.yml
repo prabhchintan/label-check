@@ -1,0 +1,27 @@
+name: CI
+
+# The deterministic verification core is the auditability story, so it is
+# gated on every push: a regression in a warning/ABV/net-contents rule fails
+# the build, not the demo. No secrets needed: the suite runs the mock
+# provider and never calls a model API.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: the job only reads the repo, it never writes or deploys.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test           # deterministic unit suite, no network
+      - run: npm run typecheck  # tsc --noEmit (Worker + scripts)
