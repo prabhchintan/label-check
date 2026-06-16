@@ -319,7 +319,17 @@ export default {
       url.pathname = url.pathname.slice(BASE_PATH.length) || "/";
     }
     const res = await app.fetch(new Request(url.toString(), req), env, ctx);
-    if (prefix && (res.headers.get("content-type") ?? "").includes("text/html")) {
+    if (!prefix) return res;
+    // The asset layer may redirect within the stripped namespace (for example
+    // /tests.html -> /tests). Re-add the prefix so the redirect stays under
+    // /ttb instead of escaping to the main site and 404ing.
+    const loc = res.headers.get("location");
+    if (loc && loc.startsWith("/") && loc !== prefix && !loc.startsWith(prefix + "/")) {
+      const headers = new Headers(res.headers);
+      headers.set("location", prefix + loc);
+      return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+    }
+    if ((res.headers.get("content-type") ?? "").includes("text/html")) {
       return new HTMLRewriter()
         .on("head", {
           element(el) {

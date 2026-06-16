@@ -2,6 +2,14 @@
 // main app, which runs the identical verification flow.
 // (External file rather than inline so the Content-Security-Policy can stay
 // script-src 'self'.)
+
+// The app root, with no trailing slash, so links read /ttb (not /ttb/) under
+// the path prefix and / at a root deployment. Derived from the injected <base>.
+const baseEl = document.querySelector("base[href]");
+const appRoot =
+  (baseEl ? new URL(baseEl.getAttribute("href"), location.href).pathname.replace(/\/+$/, "") : "") || "/";
+for (const a of document.querySelectorAll("a[data-home]")) a.href = appRoot;
+
 fetch("demo-labels/manifest.json")
   .then((r) => r.json())
   .then((manifest) => {
@@ -11,7 +19,7 @@ fetch("demo-labels/manifest.json")
     for (const d of manifest) {
       const a = document.createElement("a");
       a.className = "demo-card";
-      a.href = `./#demo-${d.id}`;
+      a.href = `${appRoot}#demo-${d.id}`;
       a.innerHTML = `
         <span class="thumb-stack"><img src="${d.image}" alt="" loading="lazy" /></span>
         <span class="card-head"><span class="chip ${d.expected}">${words[d.expected]}</span></span>
