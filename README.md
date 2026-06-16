@@ -8,12 +8,12 @@ Label Check reads an alcohol label, compares it to the application, and returns 
 
 ## Try it (a minute)
 
-One screen, a single label or a whole stack. No mode to choose: fill the application details for a field-by-field match, or leave them blank and drop many, and each image is screened on its own.
+One screen, one label or a whole stack. Fill the application details for a field-by-field match; leave them blank and drop many, and each image is screened alone.
 
 1. Click any of the **twelve real COLA label sets**. The application fills itself and the check runs.
 2. Legal checks land first; model opinions stream in behind. Chaglasian reproduces the 2019 comma catch; Penn Square flags the colon TTB let through.
 3. Each of the **seven elements** gets a verdict and a reason. Save a CFR-cited **printable record**, built in the browser, nothing stored.
-4. Press **Stress test: screen 300** (or drop your own folder): 300 labels triage into a live grid with one-click CSV. A photo of your lunch comes back, politely, as not a label.
+4. Press **Stress test: screen 300** (or drop your own folder): 300 labels triage into a live grid with one-click CSV. A photo of your lunch comes back as not a label.
 5. `/tests.html` runs the interview notes as tests: the brief's Old Tom sample, Dave's "STONE'S THROW", Jenny's title-case warning and angled photo, plus two real labels the tool cannot yet read.
 
 ## The finding that set the architecture
@@ -57,11 +57,11 @@ Peak season is an importer dropping 200 to 300 applications at once, the load th
 
 Two optional declarations, **Source** and **Beverage type**, make the origin and malt-ABV-exemption checks fully determined when supplied. The tool verifies mandatory *label* elements, not COLA administrative metadata (permit, formula, status), which lives in the application of record (TTB F 5100.31).
 
-## Real labels, real edges
+## Real labels
 
-The twelve are real adjudicated COLA sets, photographed as submitted, each exercising what synthetic data cannot fake: the Chaglasian comma and the Penn Square colon; Black Maple Hill's ABV on a neck strip; kanji front labels; imported single malts and a Japanese shochu; a sideways can wrap; a clean Spanish import showing "Product of Spain". Two labels sit past the edge of current vision transcription and are shown as **documented limits** on `/tests.html`, not dressed up as demos. All were collected by hand from public records; the deployed app never contacts ttbonline.gov.
+The twelve are real adjudicated COLA sets, photographed as submitted, each exercising what synthetic data cannot fake: the Chaglasian comma and the Penn Square colon; Black Maple Hill's ABV on a neck strip; kanji front labels; imported single malts and a Japanese shochu; a sideways can wrap; a clean Spanish import showing "Product of Spain". Two sit past the edge of vision transcription, shown as **limits** on `/tests.html`. All were collected by hand from public records; the deployed app never contacts ttbonline.gov.
 
-## Honest limits
+## Limits
 
 - The warning's **wording** (16.21) is checked exactly; its **type size and placement** (16.22) and bold weight cannot be proven from a photo, so those stay a visual check, with any doubt flagged YELLOW, never a false GREEN.
 - A pile of images with no application records gets presence and warning checks only; full field-matching needs COLA integration.
@@ -87,7 +87,7 @@ Cloudflare Worker (Hono)
 UI renders the label beside per-field rows; pending rows resolve in place.
 ```
 
-**Stateless on purpose.** No database, no stored images; a content-hash cache holds only model readings, for an hour. That is the security story (nothing to retain, leak, or purge) and the scale story: each request is a Cloudflare edge isolate, so it scales horizontally with no servers, and the limit at volume is model budget, not the app. With no key the app runs in demo mode, replaying all 20 bundled examples (12 real sets plus 8 synthetic stress tests) from recorded readings; the pipeline is identical and the mock never invents a reading.
+**Stateless on purpose.** No database, no stored images; a content-hash cache holds only model readings, for an hour. Nothing to retain, leak, or purge, and each request is a Cloudflare edge isolate, so it scales horizontally with no servers; the limit at volume is model budget, not the app. With no key the app runs in demo mode, replaying all 20 bundled examples (12 real sets plus 8 synthetic stress tests) from recorded readings; the pipeline is identical and the mock never invents a reading.
 
 ## Production path
 
@@ -111,7 +111,7 @@ npx wrangler secret put ANTHROPIC_API_KEY    # enables live extraction
 
 The open demo is bounded in layers: a spend cap on the key, an in-code per-IP rate limit on `/api/*`, and a body-size cap, behind a strict same-origin CSP and standard hardening headers. The only runtime dependency is Hono; CI gates the suite with no secrets.
 
-The front end uses the public-domain U.S. Web Design System and Public Sans. The Treasury seal and the official-government banner are left off, and every page carries a non-affiliation notice. A tool that checks the government should not dress up as it.
+The front end uses the public-domain U.S. Web Design System and Public Sans. The Treasury seal and official-government banner are left off; every page carries a non-affiliation notice.
 
 ## Repository map
 

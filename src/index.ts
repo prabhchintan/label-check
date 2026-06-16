@@ -53,6 +53,15 @@ app.use("*", async (c, next) => {
       "font-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; " +
       "base-uri 'self'; form-action 'self'",
   );
+  // Static media does not change between deploys, so let the browser keep it
+  // instead of revalidating every load (the asset layer defaults to max-age=0).
+  // HTML, CSS, and JS keep revalidation so a deploy is picked up immediately.
+  const path = new URL(c.req.url).pathname;
+  if (path.endsWith(".woff2")) {
+    c.res.headers.set("Cache-Control", "public, max-age=31536000, immutable");
+  } else if (/\.(png|jpe?g|webp|gif|svg|ico)$/.test(path)) {
+    c.res.headers.set("Cache-Control", "public, max-age=2592000");
+  }
 });
 
 /**
