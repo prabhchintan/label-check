@@ -18,7 +18,11 @@ const state = {
 };
 
 const VERIFY_TIMEOUT_MS = 60_000;
-const MAX_BATCH = 50; // browsers decode images eagerly; screen big dumps in slices
+// A peak-season importer dump is 200-300 labels; we accept up to 500 in one go.
+// Images are downscaled lazily inside the concurrency cap (never all at once),
+// so memory stays flat no matter how big the pile.
+const MAX_BATCH = 500;
+const MAX_SET = 5; // one product's sides: front, back, neck, strip, spare
 const ACCEPTED_TYPES = /^image\/(png|jpe?g|webp|gif)$/;
 const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -33,21 +37,11 @@ function revokeBlobUrls(container) {
   }
 }
 
-/* ---------------- views & modes ---------------- */
+/* ---------------- views ---------------- */
 function showView(view) {
   $("view-landing").hidden = view !== "landing";
   $("view-tool").hidden = view !== "tool";
   window.scrollTo({ top: 0 });
-}
-
-function setMode(mode) {
-  const single = mode === "single";
-  $("single-ui").hidden = !single;
-  $("batch-ui").hidden = single;
-  $("mode-single").classList.toggle("active", single);
-  $("mode-batch").classList.toggle("active", !single);
-  $("mode-single").setAttribute("aria-pressed", String(single));
-  $("mode-batch").setAttribute("aria-pressed", String(!single));
 }
 
 /**
@@ -62,9 +56,6 @@ function navigate(hash) {
 
 $("home-link").addEventListener("click", () => navigate(""));
 $("open-tool").addEventListener("click", () => navigate("#check"));
-$("open-batch").addEventListener("click", () => navigate("#batch"));
-$("mode-single").addEventListener("click", () => navigate("#check"));
-$("mode-batch").addEventListener("click", () => navigate("#batch"));
 window.addEventListener("hashchange", () => routeFromHash());
 
 /* ---------------- mode banner ---------------- */
@@ -90,6 +81,7 @@ Promise.all([
     }));
     renderLanding();
     renderDock();
+    setupGalleryReveal();
     routeFromHash();
   })
   .catch(() => {
@@ -105,25 +97,17 @@ function routeFromHash() {
     );
     if (d) {
       showView("tool");
-      setMode("single");
       runDemo(d);
       return;
     }
   }
-  if (location.hash === "#batch-demo") {
+  if (location.hash === "#batch-demo" || location.hash === "#stress") {
     showView("tool");
-    setMode("batch");
-    runDemoBatch();
+    runStressDemo();
     return;
   }
-  if (location.hash === "#check") {
+  if (location.hash === "#check" || location.hash === "#batch") {
     showView("tool");
-    setMode("single");
-    return;
-  }
-  if (location.hash === "#batch") {
-    showView("tool");
-    setMode("batch");
     return;
   }
   showView("landing");
@@ -157,6 +141,34 @@ function renderLanding() {
   }
 }
 
+// The sample gallery starts under a frosted glass pane; the first real scroll
+// (or the frame entering view) lifts it. Reduced-motion users get it revealed
+// up front, no hidden content. Reveal happens once, then listeners detach.
+function setupGalleryReveal() {
+  const zone = document.querySelector(".reveal-zone");
+  if (!zone) return;
+  let done = false;
+  const reveal = () => {
+    if (done) return;
+    done = true;
+    zone.classList.add("revealed");
+    window.removeEventListener("scroll", onScroll);
+    if (io) io.disconnect();
+  };
+  const onScroll = () => { if (window.scrollY > 60) reveal(); };
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { reveal(); return; }
+  let io = null;
+  const frame = zone.querySelector(".gallery-frame");
+  if ("IntersectionObserver" in window && frame) {
+    io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting && e.intersectionRatio >= 0.25) reveal();
+    }, { threshold: [0.25], rootMargin: "0px 0px -10% 0px" });
+    io.observe(frame);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+}
+
 function renderDock() {
   const dock = $("dock-items");
   dock.innerHTML = "";
@@ -175,6 +187,7 @@ async function runDemo(demo) {
   // Owns the run from the first await: a second click invalidates this one
   // so a slow image fetch can't pair demo A's images with demo B's form.
   const seq = ++state.runSeq;
+  clearBatchUI();
 
   $("brand_name").value = demo.application.brand_name;
   $("class_type").value = demo.application.class_type;
@@ -183,6 +196,8 @@ async function runDemo(demo) {
   // Optional declarations default to auto-detect; reset between demos.
   $("source").value = demo.application.source || "";
   $("beverage_type").value = demo.application.beverage_type || "";
+  // A demo is the field-by-field story; open the application so it shows.
+  $("app-details").open = true;
 
   // Fetch the demo images and treat them like a user upload, the
   // verification path is identical to a real one.
@@ -265,7 +280,7 @@ async function prepImage(file) {
   }
 }
 
-async function addImages(files) {
+function addImages(files) {
   if (!files.length) return;
   // The picker's `accept` doesn't apply to drag-and-drop: filter here so a
   // dragged HEIC or PDF gets a sentence, not a broken thumbnail.
@@ -273,55 +288,132 @@ async function addImages(files) {
   const skipped = files.filter((f) => !ACCEPTED_TYPES.test(f.type));
   const notes = [];
   if (skipped.length) {
+    const names = skipped.slice(0, 3).map((f) => `"${f.name}"`).join(", ");
     notes.push(
-      `Skipped ${skipped.map((f) => `"${f.name}"`).join(", ")}, please use PNG, JPEG, WebP, or GIF images.`,
+      `Skipped ${names}${skipped.length > 3 ? ` and ${skipped.length - 3} more` : ""}, please use PNG, JPEG, WebP, or GIF images.`,
     );
   }
-  if (state.images.length + usable.length > 5) {
-    notes.push("A label set is at most 5 images; extras were left off.");
+  const room = MAX_BATCH - state.images.length;
+  const added = usable.slice(0, Math.max(0, room));
+  if (usable.length > added.length) {
+    notes.push(`Up to ${MAX_BATCH} images at once; the first ${MAX_BATCH} are kept.`);
   }
   if (notes.length) showNotice(notes.join(" "));
-  if (!usable.length) return;
-  const prepped = await Promise.all(usable.map(prepImage));
-  state.images = state.images.concat(prepped).slice(0, 5);
+  if (!added.length) return;
+  // Store the raw files. Downscaling happens lazily at send time (a single set)
+  // or inside the batch concurrency cap, so a 500-image pile never decodes all
+  // at once and memory stays flat.
+  state.images = state.images.concat(added);
   renderThumbs();
+  updateCta();
 }
 
+const THUMB_PREVIEW = 12;
 function renderThumbs() {
   const box = $("thumbs");
   revokeBlobUrls(box);
   box.innerHTML = "";
-  state.images.forEach((file, i) => {
+  const n = state.images.length;
+  dropzone.classList.toggle("has-images", n > 0);
+  if (!n) return;
+  // A small set shows every thumb with a remove control; a big pile shows a
+  // light preview plus a count, so 500 images don't mean 500 decoded thumbnails.
+  const showAll = n <= THUMB_PREVIEW;
+  const shown = showAll ? state.images : state.images.slice(0, THUMB_PREVIEW - 2);
+  shown.forEach((file, i) => {
     const t = document.createElement("span");
     t.className = "thumb";
     const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
     img.alt = file.name;
     img.className = "zoomable";
+    img.loading = "lazy";
     img.title = "Click to enlarge";
-    const x = document.createElement("button");
-    x.type = "button";
-    x.className = "thumb-remove";
-    x.setAttribute("aria-label", `Remove ${file.name}`);
-    x.textContent = "×";
-    x.addEventListener("click", (e) => {
-      e.stopPropagation();
-      state.images.splice(i, 1);
-      renderThumbs();
-    });
-    t.append(img, x);
+    t.appendChild(img);
+    if (showAll) {
+      const x = document.createElement("button");
+      x.type = "button";
+      x.className = "thumb-remove";
+      x.setAttribute("aria-label", `Remove ${file.name}`);
+      x.textContent = "×";
+      x.addEventListener("click", (e) => {
+        e.stopPropagation();
+        state.images.splice(i, 1);
+        renderThumbs();
+        updateCta();
+      });
+      t.appendChild(x);
+    }
     box.appendChild(t);
   });
-  dropzone.classList.toggle("has-images", state.images.length > 0);
+  if (!showAll) {
+    const more = document.createElement("span");
+    more.className = "thumb-more";
+    more.textContent = `+${n - shown.length} more`;
+    box.appendChild(more);
+    const clear = document.createElement("button");
+    clear.type = "button";
+    clear.className = "thumb-clear";
+    clear.textContent = "Clear";
+    clear.addEventListener("click", () => {
+      state.images = [];
+      renderThumbs();
+      updateCta();
+    });
+    box.appendChild(clear);
+  }
 }
 
-/* ---------------- single verification (progressive) ---------------- */
-$("verify-btn").addEventListener("click", () => verify());
-// Enter in any form field runs the check, the expected behavior.
+/* ---------------- one action, single or batch ----------------
+   The application fields describe ONE product. Fill them (or drop a single
+   set) and it runs as one careful check; leave them blank and drop many and
+   each image is screened on its own. No mode to pick: the inputs decide. */
+const APP_FIELDS = ["brand_name", "class_type", "abv", "net_contents", "source", "beverage_type"];
+function hasFields() {
+  return APP_FIELDS.some((k) => $(k).value.trim() !== "");
+}
+function isBatch() {
+  return state.images.length >= 2 && !hasFields();
+}
+function updateCta() {
+  const btn = $("verify-btn");
+  btn.textContent = isBatch() ? `Screen ${state.images.length} labels` : "Check label";
+  // The stress demo is a "try it with no upload" affordance; step aside once
+  // the reviewer has their own images in hand.
+  $("stress-btn").hidden = state.images.length > 0;
+}
+function dispatch() {
+  if (state.batchRunning) return;
+  if (!state.images.length) {
+    showError("Drop a label image first.");
+    return;
+  }
+  if (isBatch()) runBatchFromImages();
+  else verify();
+}
+
+$("verify-btn").addEventListener("click", () => dispatch());
+$("stress-btn").addEventListener("click", () => navigate("#stress"));
+// Enter in any field, or changing one, keeps the action label honest.
 $("verify-form").addEventListener("submit", (e) => {
   e.preventDefault();
-  verify();
+  dispatch();
 });
+$("verify-form").addEventListener("input", updateCta);
+
+/** Each dropped image becomes its own label, screened for the mandatory
+    elements and an exact government warning. This is the 300-label path. */
+function runBatchFromImages() {
+  clearResult();
+  const jobs = state.images.map((f) => ({
+    name: f.name || "label",
+    files: [f],
+    thumbUrl: URL.createObjectURL(f),
+    labelOnly: true,
+    prep: true, // downscaled inside the concurrency cap, never all at once
+  }));
+  runBatch(jobs);
+}
 
 function tierOf(fields) {
   let tier = "GREEN";
@@ -342,24 +434,37 @@ function summaryOf(fields) {
   return "All checks passed. Ready for agent sign-off.";
 }
 
+/** Just the field list (no verdict-word prefix), for the printed verdict bar
+    where the bold verdict word is already shown, so it never doubles up. */
+function verdictDetail(fields) {
+  const failing = fields.filter((f) => f.status === "fail" || f.status === "missing");
+  const reviewing = fields.filter((f) => f.status === "review");
+  if (failing.length) return failing.map((f) => f.field.toLowerCase()).join(", ");
+  if (reviewing.length) return reviewing.map((f) => f.field.toLowerCase()).join(", ");
+  return "all seven elements verified";
+}
+
 async function verify(seq = ++state.runSeq) {
   clearResult();
+  clearBatchUI();
   if (!state.images.length) {
-    showError("Add a label image first, drop it in the box on the left.");
+    showError("Drop a label image first.");
     return;
   }
-  // Snapshot the label set: deferred follow-ups must use the images this run
-  // checked, not whatever is selected by the time they fire.
-  const runImages = state.images.slice();
+  setBusy(true);
+  // One product's label set is at most five sides. Downscale them now (lazily,
+  // only these few), and snapshot the set so deferred follow-ups use the images
+  // this run checked, not whatever is selected by the time they fire.
+  const runImages = await Promise.all(state.images.slice(0, MAX_SET).map(prepImage));
+  if (seq !== state.runSeq) return;
 
   const fd = new FormData();
   for (const f of runImages) fd.append("image", f);
-  for (const k of ["brand_name", "class_type", "abv", "net_contents", "source", "beverage_type"]) {
+  for (const k of APP_FIELDS) {
     fd.append(k, $(k).value);
   }
   fd.append("defer", "1");
 
-  setBusy(true);
   const t0 = performance.now();
   let res, data;
   try {
@@ -713,7 +818,7 @@ function buildPrintReport(lr) {
       <div class="pr-brand">Label Check</div>
       <div class="pr-meta">Verification record · ${escapeHtml(when)}</div>
     </div>
-    <div class="pr-verdict ${tier}"><span class="pr-mark">${TIER_ICONS[tier]}</span> ${PR_VERDICT_WORD[tier]}: ${escapeHtml(summaryOf(v.fields))}</div>
+    <div class="pr-verdict ${tier}"><span class="pr-mark">${TIER_ICONS[tier]}</span> ${PR_VERDICT_WORD[tier]}${verdictDetail(v.fields) ? `: ${escapeHtml(verdictDetail(v.fields))}` : ""}</div>
     ${imgs ? `<div class="pr-images">${imgs}</div>` : ""}
     <table class="pr-table">
       <thead><tr><th>Field</th><th>Application</th><th>Label</th><th>Result</th><th>Why</th></tr></thead>
@@ -803,49 +908,41 @@ document.addEventListener("keydown", (e) => {
 });
 
 /* ---------------- batch ---------------- */
-const CONCURRENCY = 3;
+const CONCURRENCY = 8; // parallel in-flight checks; HTTP/2 multiplexes to the Worker
 const VALID_TIERS = new Set(["GREEN", "YELLOW", "RED"]);
 /** Never let an unexpected server tier become a bad CSS class or a NaN count. */
 const safeTier = (t) => (VALID_TIERS.has(t) ? t : "ERROR");
 
-$("batch-choose").addEventListener("click", () => $("batch-input").click());
-$("batch-input").addEventListener("change", (e) => {
-  let files = Array.from(e.target.files || []).filter((f) =>
-    ACCEPTED_TYPES.test(f.type),
-  );
-  e.target.value = "";
-  if (!files.length) return;
-  let note = "";
-  if (files.length > MAX_BATCH) {
-    note = `Screening the first ${MAX_BATCH} of ${files.length} images, run the rest in another pass.`;
-    files = files.slice(0, MAX_BATCH);
-  }
-  runBatch(
-    files.map((f) => ({
-      name: f.name,
-      files: [f],
-      thumbUrl: URL.createObjectURL(f),
-      labelOnly: true,
-      prep: true, // downscaling happens in the worker, not all at once
-    })),
-    note,
-  );
-});
-$("batch-demo-btn").addEventListener("click", runDemoBatch);
-
 function setBatchBusy(b) {
   state.batchRunning = b;
-  $("batch-choose").disabled = b;
-  $("batch-demo-btn").disabled = b;
+  $("verify-btn").disabled = b;
+  $("stress-btn").disabled = b;
 }
 
-async function runDemoBatch() {
+/** Clear a batch view (grid, progress, summary, detail) before a single check. */
+function clearBatchUI() {
+  $("batch-progress").hidden = true;
+  $("batch-summary").innerHTML = "";
+  const grid = $("batch-grid");
+  revokeBlobUrls(grid);
+  grid.innerHTML = "";
+  $("batch-detail").innerHTML = "";
+}
+
+/**
+ * The 300-label proof. The peak-season scenario in the brief is an importer
+ * dumping 200-300 applications at once; this screens 300 in one pass. It cycles
+ * the bundled example sets up to 300 jobs: in demo mode each hits a recorded
+ * reading (instant, no spend), and live it is 300 real checks of the engine.
+ */
+async function runStressDemo() {
   const all = state.realManifest;
   if (!all.length || state.batchRunning) return;
+  clearResult();
   setBatchBusy(true);
   $("batch-progress").hidden = false;
-  $("progress-text").textContent = "Loading the example label sets…";
-  const jobs = [];
+  $("progress-text").textContent = "Preparing 300 labels…";
+  const loaded = [];
   for (const d of all) {
     try {
       const files = await Promise.all(
@@ -856,19 +953,26 @@ async function runDemoBatch() {
           });
         }),
       );
-      jobs.push({
-        name: d.short || d.title,
-        files,
-        thumbUrl: d.images[0],
-        fields: d.application,
-        labelOnly: false,
-      });
+      loaded.push({ d, files });
     } catch {
-      jobs.push({ name: d.title, error: "could not load example images" });
+      /* skip an example that fails to load */
     }
   }
   setBatchBusy(false);
-  runBatch(jobs);
+  if (!loaded.length) return;
+  const TARGET = 300;
+  const jobs = [];
+  for (let i = 0; i < TARGET; i++) {
+    const { d, files } = loaded[i % loaded.length];
+    jobs.push({
+      name: `${d.short || d.title} #${Math.floor(i / loaded.length) + 1}`,
+      files, // shared raw bytes; demo mode keys on their hash
+      thumbUrl: d.images[0],
+      fields: d.application,
+      labelOnly: false,
+    });
+  }
+  runBatch(jobs, `Stress test: ${TARGET} labels screened in one pass.`);
 }
 
 async function runBatch(jobs, note = "") {

@@ -15,14 +15,17 @@
     "run_worker_first": true
   },
   "observability": { "enabled": true },
-  // Native per-IP rate limit on /api/* (see src/index.ts). 30 requests / 60 s
-  // per client IP: invisible to a human reviewer, caps automated abuse. The
-  // namespace_id is a local identifier for this Worker's limiter.
+  // Native per-IP rate limit on /api/* (see src/index.ts). Set high on purpose:
+  // a single reviewer dumping 300-500 labels at once is the scenario this app is
+  // built to win, so the limiter must not throttle it. 1200 requests / 60 s per
+  // client IP clears any human batch (peak ~4/s at the client's concurrency cap)
+  // while still stopping a runaway script. The Anthropic spend cap is the real
+  // cost backstop. namespace_id is a local identifier for this Worker's limiter.
   "ratelimits": [
     {
       "name": "API_RATE_LIMIT",
       "namespace_id": "1001",
-      "simple": { "limit": 30, "period": 60 }
+      "simple": { "limit": 1200, "period": 60 }
     }
   ],
   // Keep the workers.dev URL enabled. To ALSO serve at prabhchintan.com/ttb, add

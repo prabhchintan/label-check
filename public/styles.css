@@ -29,22 +29,28 @@
 
 :root {
   --sans: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --navy: #14304f;
-  --accent: #1d4f82;
-  --bg: #fafbfc;
+  /* USWDS federal tokens. --navy is base-ink (#162e51), --accent is base-primary
+     (#005ea2), --accent-dark is primary-dark (#1a4480): the exact palette current
+     .gov sites, ttb.gov included, are built on. We use the public-domain design
+     system, never the Treasury seal or the official-government banner. */
+  --navy: #162e51;
+  --accent: #005ea2;
+  --accent-dark: #1a4480;
+  --gold: #e6a817;        /* base-gold, the prototype tag + masthead hairline */
+  --bg: #f7f9fb;
   --card: #ffffff;
-  --ink: #181b20;
-  --muted: #677181;
-  --green: #257a3e;
-  --green-bg: #ebf6ee;
+  --ink: #1b1b1b;
+  --muted: #5b616b;       /* USWDS gray-cool-60, AA on white */
+  --green: #1a7f37;
+  --green-bg: #ecf3ec;
   --yellow: #8a6a2f;
-  --yellow-bg: #fdf4dd;
-  --red: #c22f33;
-  --red-bg: #fbeaea;
-  --line: #e7e9ee;
-  --radius: 12px;
-  --shadow: 0 1px 2px rgba(20, 48, 79, 0.05), 0 4px 16px rgba(20, 48, 79, 0.05);
-  --shadow-lift: 0 2px 6px rgba(20, 48, 79, 0.08), 0 12px 32px rgba(20, 48, 79, 0.12);
+  --yellow-bg: #faf3d1;
+  --red: #b50909;
+  --red-bg: #f8eded;
+  --line: #dfe1e6;
+  --radius: 4px;          /* federal-flat; USWDS corners are 2-4px, not 12 */
+  --shadow: 0 1px 2px rgba(22, 46, 81, 0.06), 0 2px 8px rgba(22, 46, 81, 0.05);
+  --shadow-lift: 0 2px 6px rgba(22, 46, 81, 0.09), 0 10px 28px rgba(22, 46, 81, 0.12);
   --serif: ui-serif, "New York", Georgia, "Times New Roman", serif;
 }
 
@@ -75,24 +81,116 @@ body {
 
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 .muted { color: var(--muted); }
-.top-rule { height: 4px; background: var(--navy); }
+/* Elegance defaults: headings and short leads wrap into balanced lines; body
+   copy avoids a lone last word. Any line that must read as one piece sets its
+   own white-space: nowrap. */
+h1, h2, .gallery-lead, .section-note, figcaption { text-wrap: balance; }
+p, li { text-wrap: pretty; }
+
+/* ================= disclaimer banner + federal masthead =================
+   The official .gov banner says "An official website of the United States
+   government." Ours occupies the same first-line slot and says the opposite,
+   on purpose. That honesty is the credential: a compliance tool must not
+   impersonate the body it checks for. */
+.disclaim-banner {
+  background: #f0f0f0; border-bottom: 1px solid #dcdde0;
+  font-size: 12.5px; line-height: 1.4; color: #3d4551;
+}
+.disclaim-row { display: flex; align-items: center; gap: 9px; padding: 7px 24px; }
+.disclaim-ico { flex: none; color: var(--accent-dark); }
+.disclaim-row strong { color: #1b1b1b; font-weight: 700; }
+
+/* The masthead is the federal signature: a deep navy bar, an original emblem
+   (not the Treasury seal), Public Sans, a thin gold rule beneath. */
+.masthead { background: var(--navy); border-bottom: 3px solid var(--gold); }
+.masthead-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 13px 24px;
+}
+.masthead-brand {
+  display: flex; align-items: center; gap: 13px;
+  text-decoration: none; color: #fff; background: none; border: none;
+  cursor: pointer; padding: 0; text-align: left; font: inherit;
+}
+.masthead-brand:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.emblem { flex: none; width: 42px; height: 42px; display: block; }
+.masthead-titles { display: flex; flex-direction: column; line-height: 1.2; }
+.masthead-name {
+  font-family: var(--sans); font-size: 20px; font-weight: 700;
+  letter-spacing: 0.2px; color: #fff;
+}
+.masthead-sub { font-size: 12.5px; font-weight: 400; color: #c8d4e3; letter-spacing: 0.2px; }
+@media (max-width: 560px) {
+  .masthead-sub { display: none; }
+  .masthead-name { font-size: 18px; }
+}
 
 /* ================= landing ================= */
-.hero { text-align: center; padding: 56px 24px 36px; }
-.hero-wordmark {
-  font-family: var(--serif);
-  font-size: 46px; font-weight: 700; letter-spacing: 0.2px;
-  margin: 0 0 4px; color: var(--navy);
+/* The hero owns the first screen so the copy breathes; the frosted gallery
+   peeks below the fold and invites the scroll that lifts the glass. */
+.hero {
+  text-align: center; padding: 40px 24px 32px;
+  min-height: 62vh; display: flex; flex-direction: column; justify-content: center;
 }
-/* Tiny punchline under the wordmark. */
-.hero-tagline {
-  margin: 0 0 16px; font-size: 16px; font-weight: 600;
-  letter-spacing: 0.2px; color: var(--accent);
+.hero-h1 {
+  font-family: var(--sans); margin: 0 0 18px; line-height: 1.04;
 }
-/* The thesis line, the one idea the page leads with. */
-.hero-line {
-  margin: 0 auto; max-width: 620px; font-size: 16.5px; line-height: 1.55; color: var(--ink);
+/* Each line is a deliberate line. They never wrap (so no word is ever orphaned
+   onto a row of its own); instead the type scales with the viewport so the
+   longest line just fits, from a 320px phone to a wide desktop. The vw factors
+   are tuned to the longest string on each line. */
+.hero-l1, .hero-l2 { display: block; white-space: nowrap; }
+.hero-l1 {
+  font-size: clamp(22px, 6.6vw, 60px); font-weight: 800;
+  letter-spacing: -0.025em; color: var(--navy);
 }
+.hero-l2 {
+  font-size: clamp(17.5px, 4.9vw, 38px); font-weight: 600;
+  letter-spacing: -0.015em; color: var(--accent); margin-top: 6px;
+}
+/* Tier 2, the claim: one snug line. Tier 3, the how: small, in three beats. */
+.hero-lead-line {
+  margin: 14px auto 10px; white-space: nowrap;
+  font-size: clamp(13.5px, 2.5vw, 22px); font-weight: 600; line-height: 1.35; color: var(--ink);
+}
+.hero-sub {
+  margin: 0 auto; max-width: 460px;
+  font-size: clamp(12px, 1.45vw, 15.5px); font-weight: 400; line-height: 1.6;
+  color: var(--muted); text-wrap: balance;
+}
+/* Each beat stays whole: the line can break between sentences, never inside
+   one, so it always reads as clean clauses. */
+.hero-sub span { white-space: nowrap; }
+@media (max-width: 560px) {
+  .hero { min-height: 54vh; padding-top: 26px; }
+  .hero-h1 { margin-bottom: 14px; }
+  .hero-lead-line { margin-top: 12px; }
+  /* Keep the action on one line on the narrowest phones. */
+  .hero-cta .btn-primary { font-size: 15.5px; padding: 12px 22px; }
+}
+
+/* ----- Apple-glass scroll reveal over the sample gallery ----- */
+.gallery-frame { position: relative; }
+.gallery-glass {
+  position: absolute; inset: -10px; z-index: 3; border-radius: 12px;
+  background: linear-gradient(180deg, rgba(247, 249, 251, 0.62), rgba(247, 249, 251, 0.46));
+  -webkit-backdrop-filter: blur(17px) saturate(1.08);
+  backdrop-filter: blur(17px) saturate(1.08);
+  display: flex; align-items: flex-start; justify-content: center; padding-top: 22px;
+  opacity: 1; pointer-events: auto;
+  transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.glass-hint {
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--accent); opacity: 0.55;
+  animation: glassfloat 1.9s ease-in-out infinite;
+}
+@keyframes glassfloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+/* The tiles stay rendered: the glass blurs them into soft color behind frost,
+   then lifts. A whisper of settle as it clears. */
+.landing-grid { transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1); transform: scale(0.985); }
+.reveal-zone.revealed .landing-grid { transform: none; }
+.reveal-zone.revealed .gallery-glass { opacity: 0; pointer-events: none; }
 /* Quiet provenance credential above the gallery. */
 .gallery-lead {
   text-align: center; margin: 4px 0 20px; font-size: 15px; color: var(--muted);
@@ -152,12 +250,6 @@ body {
   display: flex; justify-content: space-between; align-items: center;
   padding-top: 12px; padding-bottom: 12px;
 }
-.wordmark-small {
-  font-family: var(--serif); font-size: 21px; font-weight: 700;
-  color: var(--navy); background: none; border: none; cursor: pointer; padding: 0;
-  text-decoration: none;
-}
-.wordmark-small:hover { color: var(--accent); }
 .tool-bar-tag { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
 
 .segmented {
@@ -176,7 +268,43 @@ body {
   border-bottom: 1px solid #eadfb9; padding: 9px 0; font-size: 14.5px;
 }
 
-#view-tool main { padding-top: 26px; }
+#view-tool main { padding-top: 30px; }
+
+/* ================= unified app: one column, one action ================= */
+/* Narrower than the full wrap so the single dropzone and one action stay the
+   focus; the whole flow reads top to bottom with nothing to choose. */
+.wrap.app { max-width: 760px; }
+
+/* Optional application details, a quiet accordion. Closed by default so
+   drop-and-check needs nothing typed. */
+.app-details {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--card); margin-top: 16px; box-shadow: var(--shadow);
+}
+.ad-summary {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 14px 18px; list-style: none; user-select: none;
+}
+.ad-summary::-webkit-details-marker { display: none; }
+.ad-title { font-weight: 650; color: var(--navy); font-size: 15.5px; flex: none; }
+.ad-note { color: var(--muted); font-size: 13.5px; flex: 1; min-width: 0; }
+.ad-chev { color: var(--muted); transition: transform 0.2s ease; flex: none; }
+.app-details[open] .ad-chev { transform: rotate(180deg); }
+.ad-summary:hover .ad-title { color: var(--accent); }
+.ad-summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: var(--radius); }
+.ad-body { padding: 2px 18px 18px; }
+@media (max-width: 480px) { .ad-note { display: none; } }
+
+/* Big-pile thumb preview: a count and a clear, not 500 decoded thumbnails. */
+.thumb-more {
+  display: inline-flex; align-items: center; height: 96px; padding: 0 10px;
+  font-weight: 650; color: var(--muted); font-size: 14px;
+}
+.thumb-clear {
+  align-self: center; font: inherit; font-size: 13px; font-weight: 600;
+  color: var(--accent); background: none; border: none; cursor: pointer;
+  text-decoration: underline; padding: 4px 8px;
+}
 
 /* ================= panes & form ================= */
 .pane {
@@ -256,11 +384,11 @@ select:focus {
 .verify-bar { display: flex; align-items: center; gap: 18px; margin-top: 22px; flex-wrap: wrap; }
 .btn-primary {
   font: inherit; font-size: 17px; font-weight: 650; color: #fff;
-  background: var(--navy); border: none; border-radius: 10px;
+  background: var(--accent); border: none; border-radius: var(--radius);
   padding: 13px 30px; cursor: pointer;
   transition: background 0.15s ease, transform 0.1s ease;
 }
-.btn-primary:hover { background: var(--accent); }
+.btn-primary:hover { background: var(--accent-dark); }
 .btn-primary:active { transform: scale(0.985); }
 .btn-primary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .btn-primary[disabled] { background: #9aa5b4; cursor: not-allowed; }
@@ -479,6 +607,11 @@ tr.is-pending td { animation: settle 1.4s ease infinite alternate; }
 }
 .site-footer a { color: var(--accent); text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
+.footer-fine {
+  margin: 8px auto 0; max-width: 640px; font-size: 11.5px; line-height: 1.6;
+  color: #8a909b;
+}
+.footer-fine span { display: block; }
 
 /* ================= zoomable images & lightbox ================= */
 .zoomable { cursor: zoom-in; transition: filter 0.12s ease; }

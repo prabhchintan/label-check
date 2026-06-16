@@ -23,130 +23,160 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="top-rule" aria-hidden="true"></div>
+  <!-- Honest disclaimer, first line on the page. It sits where the official
+       "An official website of the United States government" banner would, and
+       says the opposite on purpose: a tool that checks the government must not
+       dress up as it. -->
+  <div class="disclaim-banner">
+    <div class="wrap disclaim-row">
+      <svg class="disclaim-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+      <span><strong>Independent prototype.</strong> Not affiliated with TTB or the U.S. Treasury.</span>
+    </div>
+  </div>
+
+  <!-- Federal masthead. The emblem is an original mark, not the Treasury seal. -->
+  <header class="masthead">
+    <div class="wrap masthead-row">
+      <button id="home-link" class="masthead-brand" type="button" aria-label="Label Check, back to start">
+        <svg class="emblem" viewBox="0 0 48 48" role="img" aria-label="Label Check emblem">
+          <circle cx="24" cy="24" r="22" fill="none" stroke="#e6a817" stroke-width="1.6"/>
+          <circle cx="24" cy="24" r="17.5" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+          <path d="M14.5 24.5 L21 31 L33.5 17.5" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="masthead-titles">
+          <span class="masthead-name">Label Check</span>
+          <span class="masthead-sub">Alcohol label verification &middot; 27 CFR</span>
+        </span>
+      </button>
+    </div>
+  </header>
 
   <!-- ================= LANDING ================= -->
   <section id="view-landing">
     <div class="hero wrap">
-      <h1 class="hero-wordmark">Label Check</h1>
-      <p class="hero-tagline">TTB label review in seconds.</p>
-      <p class="hero-line">Deterministic where the law is exact. AI only where it takes judgment.</p>
+      <h1 class="hero-h1">
+        <span class="hero-l1">Verify an alcohol label</span>
+        <span class="hero-l2">against its COLA application.</span>
+      </h1>
+      <p class="hero-lead-line">Seven required elements, per 27 CFR.</p>
+      <p class="hero-sub"><span>The model aids.</span> <span>The agent makes the call.</span></p>
       <div class="hero-cta">
-        <button id="open-tool" class="btn-primary" type="button"><svg class="btn-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>Check your own label</button>
-        <button id="open-batch" class="btn-ghost" type="button">Screen a batch</button>
+        <button id="open-tool" class="btn-primary" type="button"><svg class="btn-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>Check a label, or hundreds</button>
       </div>
     </div>
-    <div class="wrap">
-      <p class="gallery-lead">or see twelve real label sets from TTB's public <a href="https://ttbonline.gov/colasonline/publicSearchColasBasicProcess.do?action=clear" target="_blank" rel="noopener">COLA registry</a></p>
-      <div id="landing-gallery" class="landing-grid"></div>
+    <div class="wrap reveal-zone">
+      <p class="gallery-lead">or browse twelve real labels from TTB's <a href="https://ttbonline.gov/colasonline/publicSearchColasBasicProcess.do?action=clear" target="_blank" rel="noopener">COLA registry</a></p>
+      <!-- The sample labels sit behind a frosted glass pane so the hero copy holds
+           the eye. On the first scroll the pane lifts and the labels resolve. -->
+      <div class="gallery-frame">
+        <div id="landing-gallery" class="landing-grid"></div>
+        <div class="gallery-glass" aria-hidden="true">
+          <span class="glass-hint">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg>
+          </span>
+        </div>
+      </div>
       <footer class="site-footer">
         <p>Nothing you upload is stored · <a href="tests.html">Approach &amp; test cases</a></p>
+        <p class="footer-fine">
+          <span>Treasury seal left off by design.</span>
+          <span>In line with the U.S. Web Design System.</span>
+        </p>
       </footer>
     </div>
   </section>
 
-  <!-- ================= TOOL ================= -->
+  <!-- ================= TOOL (one screen: a single label, or hundreds) ======== -->
   <section id="view-tool" hidden>
-    <header class="tool-bar">
-      <div class="wrap tool-bar-row">
-        <button id="home-link" class="wordmark-small" type="button" aria-label="Back to examples">Label Check</button>
-        <div class="segmented" role="group" aria-label="Mode">
-          <button id="mode-single" class="seg active" aria-pressed="true" type="button">One label</button>
-          <button id="mode-batch" class="seg" aria-pressed="false" type="button">Batch</button>
-        </div>
-      </div>
-    </header>
-
     <div id="demo-banner" class="demo-banner" hidden>
-      <div class="wrap">Demo mode: the examples replay recorded readings. Live uploads need an AI key.</div>
+      <div class="wrap">Demo mode: examples replay recorded readings. Live uploads need a key.</div>
     </div>
 
-    <main class="wrap">
-      <!-- ---- single ---- -->
-      <div id="single-ui">
-        <div class="two-col">
-          <div class="pane">
-            <h2>Label images</h2>
-            <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Choose or drop label images">
-              <input id="file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
-              <div id="drop-hint">
-                <strong>Drop the label set here</strong>
-                <span class="muted">front, back, neck, or click to choose</span>
-              </div>
-            </div>
-            <div id="thumbs" class="thumbs"></div>
-          </div>
+    <main class="wrap app">
+      <!-- One dropzone for everything: a single bottle's sides, or a 300-label dump. -->
+      <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Choose or drop label images">
+        <input id="file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
+        <div id="drop-hint">
+          <strong>Drop a label, or a whole stack</strong>
+          <span class="muted">One bottle's sides, or hundreds. Click to choose.</span>
+        </div>
+      </div>
+      <div id="thumbs" class="thumbs"></div>
 
-          <div class="pane">
-            <h2>What the application says</h2>
-            <form id="verify-form" novalidate>
+      <!-- Optional application details, collapsed. Drop-and-check needs nothing
+           typed; open this to match one label field by field. Optional is said
+           once, here, not stamped on every input. -->
+      <details id="app-details" class="app-details">
+        <summary class="ad-summary">
+          <span class="ad-title">Add application details</span>
+          <span class="ad-note">optional, for a field-by-field match</span>
+          <svg class="ad-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <form id="verify-form" novalidate class="ad-body">
+          <div class="field-row">
+            <div>
               <label for="brand_name">Brand name</label>
               <input id="brand_name" name="brand_name" type="text" autocomplete="off" />
-
+            </div>
+            <div>
               <label for="class_type">Class / type</label>
               <input id="class_type" name="class_type" type="text" autocomplete="off" />
-
-              <div class="field-row">
-                <div>
-                  <label for="abv">Alcohol content</label>
-                  <input id="abv" name="abv" type="text" autocomplete="off" />
-                </div>
-                <div>
-                  <label for="net_contents">Net contents</label>
-                  <input id="net_contents" name="net_contents" type="text" autocomplete="off" />
-                </div>
-              </div>
-              <div class="field-row">
-                <div>
-                  <label for="source">Source <span class="opt">optional</span></label>
-                  <select id="source" name="source">
-                    <option value="">Auto-detect from label</option>
-                    <option value="domestic">Domestic</option>
-                    <option value="imported">Imported</option>
-                  </select>
-                </div>
-                <div>
-                  <label for="beverage_type">Beverage type <span class="opt">optional</span></label>
-                  <select id="beverage_type" name="beverage_type">
-                    <option value="">Auto-detect from label</option>
-                    <option value="wine">Wine</option>
-                    <option value="spirits">Distilled spirits</option>
-                    <option value="malt">Malt beverage</option>
-                  </select>
-                </div>
-              </div>
-              <!-- invisible default button so Enter in any field runs the check -->
-              <button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true">Check</button>
-            </form>
-            <div class="verify-bar">
-              <button id="verify-btn" class="btn-primary" type="button">Check this label</button>
-              <span id="busy" class="busy" role="status" hidden>
-                <span class="spinner" aria-hidden="true"></span>
-                <span id="busy-text">Reading the label set…</span> <span id="busy-seconds"></span>
-              </span>
             </div>
           </div>
-        </div>
+          <div class="field-row">
+            <div>
+              <label for="abv">Alcohol content</label>
+              <input id="abv" name="abv" type="text" autocomplete="off" />
+            </div>
+            <div>
+              <label for="net_contents">Net contents</label>
+              <input id="net_contents" name="net_contents" type="text" autocomplete="off" />
+            </div>
+          </div>
+          <div class="field-row">
+            <div>
+              <label for="source">Source</label>
+              <select id="source" name="source">
+                <option value="">Auto-detect from label</option>
+                <option value="domestic">Domestic</option>
+                <option value="imported">Imported</option>
+              </select>
+            </div>
+            <div>
+              <label for="beverage_type">Beverage type</label>
+              <select id="beverage_type" name="beverage_type">
+                <option value="">Auto-detect from label</option>
+                <option value="wine">Wine</option>
+                <option value="spirits">Distilled spirits</option>
+                <option value="malt">Malt beverage</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true">Check</button>
+        </form>
+      </details>
 
-        <div id="result" role="region" aria-label="Verification result" tabindex="-1"></div>
+      <!-- One adaptive action; its label reflects what the click will do. -->
+      <div class="verify-bar">
+        <button id="verify-btn" class="btn-primary" type="button">Check label</button>
+        <button id="stress-btn" class="btn-ghost" type="button">Stress test: screen 300</button>
+        <span id="busy" class="busy" role="status" hidden>
+          <span class="spinner" aria-hidden="true"></span>
+          <span id="busy-text">Reading the label set…</span> <span id="busy-seconds"></span>
+        </span>
       </div>
 
-      <!-- ---- batch ---- -->
-      <div id="batch-ui" hidden>
-        <div class="batch-controls">
-          <button id="batch-choose" class="btn-ghost" type="button">Choose images…</button>
-          <input id="batch-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
-          <button id="batch-demo-btn" class="btn-ghost" type="button">Screen the example labels</button>
-          <span class="muted batch-note">Each image is screened for the mandatory elements and an exact government warning.</span>
-        </div>
-        <div id="batch-progress" class="batch-progress" aria-live="polite" hidden>
-          <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
-          <span id="progress-text"></span>
-        </div>
-        <div id="batch-summary" class="batch-summary" aria-live="polite"></div>
-        <div id="batch-grid" class="batch-grid"></div>
-        <div id="batch-detail"></div>
+      <!-- A single label's full result renders here. -->
+      <div id="result" role="region" aria-label="Verification result" tabindex="-1"></div>
+
+      <!-- A batch (many labels) renders here. -->
+      <div id="batch-progress" class="batch-progress" aria-live="polite" hidden>
+        <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+        <span id="progress-text"></span>
       </div>
+      <div id="batch-summary" class="batch-summary" aria-live="polite"></div>
+      <div id="batch-grid" class="batch-grid"></div>
+      <div id="batch-detail"></div>
 
       <div class="dock" aria-label="Examples">
         <span class="dock-label">Examples</span>
@@ -155,6 +185,10 @@
 
       <footer class="site-footer">
         <p>Nothing you upload is stored · <a href="tests.html">Approach &amp; test cases</a></p>
+        <p class="footer-fine">
+          <span>Treasury seal left off by design.</span>
+          <span>In line with the U.S. Web Design System.</span>
+        </p>
       </footer>
     </main>
   </section>
