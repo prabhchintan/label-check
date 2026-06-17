@@ -41,9 +41,9 @@
   --card: #ffffff;
   --ink: #1b1b1b;
   --muted: #5b616b;       /* USWDS gray-cool-60, AA on white */
-  --green: #1a7f37;
+  --green: #157730;       /* darkened so chip/banner text clears AA on green-bg */
   --green-bg: #ecf3ec;
-  --yellow: #8a6a2f;
+  --yellow: #7c5d22;      /* darkened so chip/banner/demo-banner text clears AA */
   --yellow-bg: #faf3d1;
   --red: #b50909;
   --red-bg: #f8eded;
@@ -195,8 +195,9 @@ p, li { text-wrap: pretty; }
 .gallery-lead {
   text-align: center; margin: 4px 0 20px; font-size: 15px; color: var(--muted);
 }
-.gallery-lead a { color: var(--accent); text-decoration: none; }
-.gallery-lead a:hover { text-decoration: underline; }
+/* Underlined: a link inside a text block must be distinguishable by more than
+   color (WCAG link-in-text-block). */
+.gallery-lead a { color: var(--accent); text-decoration: underline; }
 
 /* Flex (not grid) so an incomplete last row centers instead of left-aligning,
    seven tiles read as a balanced 4 + 3, not a row with a hole in it. */
@@ -381,7 +382,7 @@ select:focus {
 .thumb-remove:hover { background: var(--red); }
 
 /* ================= buttons ================= */
-.verify-bar { display: flex; align-items: center; gap: 18px; margin-top: 22px; flex-wrap: wrap; }
+.verify-bar { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
 .btn-primary {
   font: inherit; font-size: 17px; font-weight: 650; color: #fff;
   background: var(--accent); border: none; border-radius: var(--radius);
@@ -609,11 +610,10 @@ tr.is-pending td { animation: settle 1.4s ease infinite alternate; }
 .site-footer {
   margin: 44px 0 28px; color: var(--muted); font-size: 13px; text-align: center;
 }
-.site-footer a { color: var(--accent); text-decoration: none; }
-.site-footer a:hover { text-decoration: underline; }
+.site-footer a { color: var(--accent); text-decoration: underline; }
 .footer-fine {
   margin: 8px auto 0; max-width: 640px; font-size: 11.5px; line-height: 1.6;
-  color: #8a909b;
+  color: #62686f;
 }
 .footer-fine span { display: block; }
 

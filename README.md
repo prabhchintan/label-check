@@ -98,6 +98,7 @@ To productionize: FedRAMP hosting, with the `ModelProvider` seam porting to Azur
 ```bash
 npm install
 npm test            # 107 unit tests, no network
+npm run test:e2e    # browser end-to-end + WCAG 2 A/AA accessibility (mock mode)
 npm run dev         # http://localhost:8787, demo mode, no key needed
 
 # live extraction:
@@ -109,7 +110,7 @@ npx wrangler deploy                          # Worker + static assets
 npx wrangler secret put ANTHROPIC_API_KEY    # enables live extraction
 ```
 
-The open demo is bounded in layers: a spend cap on the key, an in-code per-IP rate limit on `/api/*`, and a body-size cap, behind a strict same-origin CSP and standard hardening headers. The only runtime dependency is Hono; CI gates the suite with no secrets.
+The open demo is bounded in layers: a spend cap on the key, an in-code per-IP rate limit on `/api/*`, and a body-size cap, behind a strict same-origin CSP and standard hardening headers. The only runtime dependency is Hono; CI gates the unit, end-to-end, and accessibility suites with no secrets.
 
 The front end uses the public-domain U.S. Web Design System and Public Sans. The Treasury seal and official-government banner are left off; every page carries a non-affiliation notice.
 

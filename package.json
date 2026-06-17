@@ -9,13 +9,17 @@
     "deploy": "wrangler deploy",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "dev:mock": "wrangler dev --port 8788 --local --var ANTHROPIC_API_KEY:\"\"",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.scripts.json --noEmit"
   },
   "dependencies": {
     "hono": "^4.6.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@cloudflare/workers-types": "^4.20241112.0",
+    "@playwright/test": "^1.61.0",
     "@types/node": "^25.9.3",
     "typescript": "^5.6.0",
     "vitest": "^4.1.8",

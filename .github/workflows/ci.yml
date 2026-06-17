@@ -25,3 +25,17 @@ jobs:
       - run: npm ci
       - run: npm test           # deterministic unit suite, no network
       - run: npm run typecheck  # tsc --noEmit (Worker + scripts)
+
+  e2e:
+    # End-to-end user journeys + WCAG 2 A/AA accessibility, in a real browser
+    # against the app in mock mode (no key, recorded readings, no secrets).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chrome
+      - run: npm run test:e2e
