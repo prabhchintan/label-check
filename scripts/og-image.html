@@ -1,75 +1,87 @@
 <!doctype html>
-<!-- Source for public/og-image.png. Render with headless Chrome at 1200x630:
-     "Google Chrome" --headless --screenshot=../public/og-image.png \
-       --window-size=1200,630 --hide-scrollbars --default-background-color=ffffffff \
-       scripts/og-image.html
-     Kept in the repo so the social card is reproducible, like everything else. -->
+<!-- Source for public/og-image.png (1200x630 social card, rendered at 2x).
+     Reproduce with headless Chrome from the repo root:
+       "Google Chrome" --headless --screenshot=public/og-image.png \
+         --window-size=1200,630 --force-device-scale-factor=2 \
+         --hide-scrollbars --default-background-color=ffffffff scripts/og-image.html
+     Kept in the repo so the card is reproducible, like everything else. -->
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <style>
+  @font-face { font-family: "Public Sans"; font-weight: 400; src: url("../public/fonts/public-sans-400.woff2") format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 600; src: url("../public/fonts/public-sans-600.woff2") format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 700; src: url("../public/fonts/public-sans-700.woff2") format("woff2"); }
   :root {
-    --navy: #14304f; --ink: #181b20; --muted: #5b6675;
-    --green: #257a3e; --green-bg: #ebf6ee; --line: #e3e7ee;
-    --serif: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    --navy: #162e51; --accent: #005ea2; --gold: #e6a817; --ink: #1b1b1b;
+    --muted: #5b616b; --green: #157730; --green-bg: #ecf3ec; --line: #dfe1e6;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1200px; height: 630px; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    color: var(--ink); background: #fff; position: relative; overflow: hidden;
+    font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color: var(--ink); background: #fff; overflow: hidden;
   }
-  .top-rule { height: 8px; background: var(--navy); }
-  .pad { padding: 64px 72px; display: flex; flex-direction: column; height: 622px; }
-  .brand { display: flex; align-items: center; gap: 18px; }
-  .brand svg { width: 54px; height: 54px; color: var(--navy); }
-  .wordmark { font-family: var(--serif); font-size: 60px; font-weight: 700; color: var(--navy); letter-spacing: -0.5px; }
-  .tagline { margin-top: 26px; font-size: 31px; line-height: 1.32; color: var(--ink); max-width: 760px; font-weight: 500; }
-  .sub { margin-top: 14px; font-size: 20px; color: var(--muted); }
-  .spacer { flex: 1; }
+  /* Federal masthead, the same shell as the site. */
+  .masthead {
+    height: 92px; background: var(--navy); border-bottom: 4px solid var(--gold);
+    display: flex; align-items: center; gap: 18px; padding: 0 56px;
+  }
+  .emblem { width: 50px; height: 50px; flex: none; }
+  .mh-name { font-size: 30px; font-weight: 700; color: #fff; letter-spacing: 0.2px; line-height: 1.1; }
+  .mh-sub { font-size: 16px; font-weight: 400; color: #c8d4e3; }
+  .pad { padding: 50px 56px 0; }
+  .h1 { font-size: 58px; font-weight: 700; letter-spacing: -1.4px; color: var(--navy); line-height: 1.02; }
+  .h2 { font-size: 36px; font-weight: 600; letter-spacing: -0.5px; color: var(--accent); margin-top: 4px; }
+  .lead { margin-top: 18px; font-size: 23px; font-weight: 600; color: var(--ink); }
+  /* The proof card. */
   .card {
-    background: #fff; border: 1px solid var(--line); border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(20,48,79,0.10); overflow: hidden; width: 1056px;
+    margin-top: 28px; width: 1088px; background: #fff; border: 1px solid var(--line);
+    border-radius: 10px; box-shadow: 0 10px 34px rgba(22,46,81,0.12); overflow: hidden;
   }
   .verdict {
     background: var(--green-bg); color: var(--green); border-bottom: 1px solid var(--line);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 28px; font-size: 23px; font-weight: 700;
+    padding: 16px 26px; font-size: 23px; font-weight: 700;
   }
-  .verdict .check { display: flex; align-items: center; gap: 12px; }
-  .verdict .timer { font-size: 18px; font-weight: 600; color: var(--muted); }
+  .verdict .timer { font-size: 17px; font-weight: 600; color: var(--muted); }
   .rows { display: flex; }
-  .row {
-    flex: 1; padding: 18px 28px; border-right: 1px solid var(--line);
-    display: flex; flex-direction: column; gap: 7px;
-  }
+  .row { flex: 1; padding: 16px 26px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
   .row:last-child { border-right: none; }
-  .row .f { font-size: 16px; color: var(--muted); font-weight: 600; }
-  .row .v { font-size: 20px; font-weight: 700; color: var(--ink); }
-  .row .ok { font-size: 16px; color: var(--green); font-weight: 700; }
+  .row .f { font-size: 15px; color: var(--muted); font-weight: 600; }
+  .row .v { font-size: 19px; font-weight: 700; color: var(--ink); }
+  .row .ok { font-size: 15px; color: var(--green); font-weight: 700; }
+  .cred { margin-top: 22px; font-size: 17px; color: var(--muted); font-weight: 600; }
 </style>
 </head>
 <body>
-  <div class="top-rule"></div>
-  <div class="pad">
-    <div class="brand">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1.5 15.5-4-4 1.41-1.41 2.59 2.58 5.59-5.59L17.5 9.5l-7 7z"/></svg>
-      <span class="wordmark">Label Check</span>
+  <div class="masthead">
+    <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" fill="none" stroke="#e6a817" stroke-width="1.6"/>
+      <circle cx="24" cy="24" r="17.5" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+      <path d="M14.5 24.5 L21 31 L33.5 17.5" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="mh-name">Label Check</div>
+      <div class="mh-sub">Alcohol label verification &middot; 27 CFR</div>
     </div>
-    <p class="tagline">AI-assisted alcohol label verification for TTB compliance review.</p>
-    <p class="sub">Reads the label set · checks the seven required elements · explains every call.</p>
-    <div class="spacer"></div>
+  </div>
+  <div class="pad">
+    <div class="h1">Verify an alcohol label</div>
+    <div class="h2">against its COLA application.</div>
+    <div class="lead">Seven required elements, checked against 27 CFR.</div>
     <div class="card">
       <div class="verdict">
-        <span class="check">✓ All checks passed, ready for agent sign-off.</span>
+        <span>&#10003; All checks passed, ready for agent sign-off.</span>
         <span class="timer">First results 2.3s</span>
       </div>
       <div class="rows">
-        <div class="row"><span class="f">Government warning</span><span class="v">27 CFR 16.21</span><span class="ok">✓ Exact match</span></div>
-        <div class="row"><span class="f">Alcohol content</span><span class="v">45% ABV / 90 proof</span><span class="ok">✓ Match</span></div>
-        <div class="row"><span class="f">Net contents</span><span class="v">750 mL</span><span class="ok">✓ Match</span></div>
+        <div class="row"><span class="f">Government warning</span><span class="v">27 CFR 16.21</span><span class="ok">&#10003; Exact match</span></div>
+        <div class="row"><span class="f">Alcohol content</span><span class="v">45% ABV / 90 proof</span><span class="ok">&#10003; Match</span></div>
+        <div class="row"><span class="f">Net contents</span><span class="v">750 mL</span><span class="ok">&#10003; Match</span></div>
       </div>
     </div>
+    <div class="cred">12 real COLA labels &middot; multi-model eval &middot; 300-label batch &middot; not affiliated with TTB</div>
   </div>
 </body>
 </html>

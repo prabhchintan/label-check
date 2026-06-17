@@ -281,6 +281,7 @@ p, li { text-wrap: pretty; }
   .ad-note { display: none; }
   .ad-summary { justify-content: center; }
   .dock { justify-content: center; }
+  .dock-items { justify-content: center; }
 }
 
 /* Big-pile thumb preview: a count and a clear, not 500 decoded thumbnails. */
